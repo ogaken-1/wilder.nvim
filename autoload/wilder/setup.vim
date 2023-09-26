@@ -28,13 +28,19 @@ function! wilder#setup#(...)
   let l:modes = get(l:config, 'modes', ['/', '?'])
   call wilder#options#set('modes', l:modes)
 
+  if get(l:config, 'enable_mappings', 1)
+    call s:define_mappings(l:config)
+  endif
+endfunction
+
+function s:define_mappings(config) abort
   for [l:key, l:default_mapping, l:function, l:condition] in [
         \ ['next_key', '<Tab>', 'wilder#next()', 'wilder#in_context()'],
         \ ['previous_key', '<S-Tab>', 'wilder#previous()', 'wilder#in_context()'],
         \ ['reject_key', '<Up>', 'wilder#reject_completion()', 'wilder#can_reject_completion()'],
         \ ['accept_key', '<Down>', 'wilder#accept_completion()', 'wilder#can_accept_completion()'],
         \ ]
-    let l:mapping = get(l:config, l:key, l:default_mapping)
+    let l:mapping = get(a:config, l:key, l:default_mapping)
     if l:mapping is v:false
       continue
     endif
@@ -47,7 +53,7 @@ function! wilder#setup#(...)
     endif
 
     if l:key ==# 'accept_key' &&
-          \ !get(l:config, 'accept_completion_auto_select', 1)
+          \ !get(a:config, 'accept_completion_auto_select', 1)
       let l:function = 'wilder#accept_completion(0)'
     endif
 
@@ -57,5 +63,4 @@ function! wilder#setup#(...)
       execute 'cmap ' l:mapping '<Cmd>call' l:function '<CR>'
     endif
   endfor
-
 endfunction
