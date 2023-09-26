@@ -2679,6 +2679,11 @@ wilder#setup([{config}])            *wilder#setup()*
 
             Default: &wildchar
 
+            `enable_mappings`
+            If |TRUE|, wilder defines cmdline mappings via below options.
+
+            Default: 1
+
             `next_key`
             A string or a list of 2 strings representing the mapping to bind
             to |wilder#next()|. If a string {key}, it is implicitly converted
