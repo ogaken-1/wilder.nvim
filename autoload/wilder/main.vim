@@ -579,7 +579,7 @@ function! wilder#main#step(num_steps) abort
     endif
 
     let s:completion = l:new_cmdline
-    call s:feedkeys_cmdline(l:new_cmdline)
+    call s:setcmdline(l:new_cmdline)
   else
     " No completion
     let s:completion = v:null
@@ -651,25 +651,16 @@ function! s:getcmdline(...) abort
   endif
 endfunction
 
-function! s:feedkeys_cmdline(cmdline) abort
-  let l:chars = split(a:cmdline, '\zs')
-
-  if s:opts.use_cmdlinechanged || !s:opts.before_cursor
-    let l:keys = "\<C-E>\<C-U>"
-  else
-    let l:keys = "\<C-U>"
-  endif
-
-  for l:char in l:chars
-    " control characters
-    if l:char <# ' '
-      let l:keys .= "\<C-Q>"
-    endif
-
-    let l:keys .= l:char
+function! s:setcmdline(cmdline) abort
+  const filters = [
+        \ {s -> s->substitute("'", "''", 'g')},
+        \ {s -> s->substitute("\<NL>", '', 'g')},
+        \ ]
+  let cmdline = a:cmdline
+  for F in filters
+    let cmdline = F(cmdline)
   endfor
-
-  call feedkeys(l:keys, 'n')
+  call feedkeys("\<Cmd>call setcmdline('"..cmdline.."')\<CR>", 'nit')
 endfunction
 
 function! wilder#main#can_accept_completion() abort
@@ -722,7 +713,7 @@ function! wilder#main#accept_completion(auto_select) abort
 
     let s:selected = 0
     let s:completion = l:new_cmdline
-    call s:feedkeys_cmdline(l:new_cmdline)
+    call s:setcmdline(l:new_cmdline)
   endif
 
   return "\<Insert>\<Insert>"
@@ -747,7 +738,7 @@ function! wilder#main#reject_completion() abort
     let s:selection_was_made = 0
     let s:clear_previous_renderer_state = 1
 
-    call s:feedkeys_cmdline(l:cmdline)
+    call s:setcmdline(l:cmdline)
     call s:run_pipeline(l:cmdline)
   endif
 
