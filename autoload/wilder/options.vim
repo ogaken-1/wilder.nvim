@@ -3,9 +3,6 @@ let s:opts = {}
 " main options
 call extend(s:opts, {
       \ 'modes': ['/', '?'],
-      \ 'use_cmdlinechanged': exists('##CmdlineChanged'),
-      \ 'interval': 100,
-      \ 'before_cursor': 0,
       \ 'num_workers': 2,
       \ 'noselect': 1,
       \ })

@@ -103,30 +103,6 @@ The options for `wilder` are:
 
             Default: ['/', '?']
 
-`use_cmdlinechanged`                *wilder-option-use_cmdlinechanged*
-            If true, wilder will refresh queries when the |CmdlineChanged|
-            autocommand is triggered.
-            Otherwise it will use a |timer| to check whether the cmdline has
-            changed.
-            Using a timer will be more resource intensive.
-
-            Default: exists('##CmdlineChanged')
-
-`interval`                          *wilder-option-interval*
-            Interval of the |timer| used to check whether the cmdline has
-            changed, in milliseconds.
-            Only applicable if |wilder-option-use_cmdlinechanged| is false.
-
-            Default: 100
-
-`before_cursor`                     *wilder-option-before_cursor*
-            If true, wilder will look only at the part of the cmdline before
-            the cursor, and when selecting a completion, the entire cmdline
-            will be replaced.
-            Only applicable if |wilder-option-use_cmdlinechanged| is false.
-
-            Default: 0
-
 `use_python_remote_plugin`          *wilder-option-use_python_remote_plugin*
             If true, uses the Python remote plugin. This option can be set to
             0 to disable the Python remote plugin.

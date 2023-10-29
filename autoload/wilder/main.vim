@@ -8,8 +8,6 @@ let s:init = 0
 let s:active = 0
 " wilder is hidden (v:true returned from pipeline)
 let s:hidden = 0
-" timer used when use_cmdlinechanged == 0
-let s:timer = v:null
 " number of CmdlineEnter triggered
 let s:session_id = 0
 " session_id of last result
@@ -115,18 +113,12 @@ function! s:start() abort
     endtry
   endif
 
-  if s:opts.use_cmdlinechanged
-    if !exists('#WilderCmdlineChanged')
-      augroup WilderCmdlineChanged
-        autocmd!
-        " call from a timer so statusline does not change during mappings
-        autocmd CmdlineChanged * call timer_start(0, {_ -> s:do(1)})
-      augroup END
-    endif
-  elseif s:timer is v:null
-      let s:timer = timer_start(s:opts.interval,
-            \ {_ -> s:do(1)},
-            \ {'repeat': -1})
+  if !exists('#WilderCmdlineChanged')
+    augroup WilderCmdlineChanged
+      autocmd!
+      " call from a timer so statusline does not change during mappings
+      autocmd CmdlineChanged * call timer_start(0, {_ -> s:do(1)})
+    augroup END
   endif
 
   if !exists('#WilderCmdlineLeave')
@@ -181,11 +173,6 @@ function! wilder#main#stop() abort
       autocmd!
     augroup END
     augroup! WilderCmdlineChanged
-  endif
-
-  if s:timer isnot v:null
-    call timer_stop(s:timer)
-    let s:timer = v:null
   endif
 
   if exists('#WilderCmdlineLeave')
@@ -632,23 +619,7 @@ function! s:get_cmdline_from_candidate(index) abort
 endfunction
 
 function! s:getcmdline(...) abort
-  if s:opts.use_cmdlinechanged || !s:opts.before_cursor
-    return getcmdline()
-  endif
-
-  if a:0
-    let l:cmdline = a:1
-    let l:cmdpos = a:2
-  else
-    let l:cmdline = getcmdline()
-    let l:cmdpos = getcmdpos()
-  endif
-
-  if l:cmdpos <= 1
-    return ''
-  else
-    return l:cmdline[: l:cmdpos - 2]
-  endif
+  return getcmdline()
 endfunction
 
 function! s:setcmdline(cmdline) abort
