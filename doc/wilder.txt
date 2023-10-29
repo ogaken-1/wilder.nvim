@@ -2808,16 +2808,6 @@ wilder#wait({f}, {on_finish})
 <
 
 
-wilder#start_from_normal_mode()     *wilder#start_from_normal_mode()*
-            Used to start wilder from normal mode. To be used when the current
-            Vim or Neovim version does not support the |CmdlineEnter| autocmd.
-
-            Example:
->
-            nnoremap <expr> / wilder#start_from_normal_mode() . '/'
-            nnoremap <expr> : wilder#start_from_normal_mode() . ':'
-<
-
                                     *wilder#make_hl()*
 wilder#make_hl({name}, {args}, [, {args1}, ..., {argsN}])
             Helper function to create a highlight group. Creates a highlight

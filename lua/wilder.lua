@@ -18,7 +18,6 @@ for _, f in pairs({
   'reject_completion',
   'can_accept_completion',
   'accept_completion',
-  'start_from_normal_mode',
   'make_hl',
   'make_temp_hl',
   'hl_with_attr',

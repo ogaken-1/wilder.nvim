@@ -83,12 +83,6 @@ function! wilder#main#start() abort
   endif
 endfunction
 
-function! wilder#main#start_from_normal_mode() abort
-  call timer_start(0, {-> s:start()})
-
-  return ''
-endfunction
-
 function! s:start() abort
   if !wilder#main#in_mode() || !s:enabled
     call wilder#main#stop()

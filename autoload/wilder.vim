@@ -79,10 +79,6 @@ function! wilder#accept_completion(...)
   return wilder#main#accept_completion(l:auto_select)
 endfunction
 
-function! wilder#start_from_normal_mode()
-  return wilder#main#start_from_normal_mode()
-endfunction
-
 function! wilder#make_hl(name, args, ...) abort
   return wilder#highlight#make_hl(a:name, a:args, a:000)
 endfunction
