@@ -750,33 +750,9 @@ function! s:is_filec(c) abort
   return match(a:c, '\f') != -1
 endfunction
 
-function! s:path_has_wildcard(c) abort
-  if has('win32') || has('win64')
-    let l:wildcards = '?*$[`'
-  else
-    let l:wildcards = "*?[{`'$"
-  endif
-
-  return stridx(l:wildcards, a:c) != -1
-endfunction
-
-function! s:isfilec_or_wc(c) abort
-  return s:is_filec(a:c) || a:c ==# ']' || s:path_has_wildcard(a:c)
-endfunction
-
 function! s:is_idc(c) abort
   return match(a:c, '\i') != -1
 endfunction
-
-function! s:or(...) abort
-  let l:result = 0
-
-  for l:arg in a:000
-    let l:result = or(l:result, l:arg)
-  endfor
-
-  return l:result
-endfunc
 
 let s:EXTRA      =    0x004
 let s:XFILE      =    0x008
