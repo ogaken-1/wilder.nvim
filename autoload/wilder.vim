@@ -257,11 +257,6 @@ function! wilder#escape_python(str, ...) abort
   return l:res
 endfunction
 
-" DEPRECATED: Use wilder#python_substring_pattern()
-function! wilder#python_substring() abort
-  return call('wilder#python_substring_pattern', [])
-endfunction
-
 function! wilder#python_substring_pattern() abort
   return {_, x -> '(' . wilder#escape_python(x) . ')\w*'}
 endfunction
