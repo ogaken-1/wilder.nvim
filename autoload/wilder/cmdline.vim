@@ -1243,15 +1243,9 @@ function! s:get_lua_completion(ctx, res, fuzzy) abort
     endif
   endif
 
-  if l:arg_pos > 0
-    let l:prefix = a:res.arg[: l:arg_pos - 1]
-    let l:match_arg = a:res.arg[l:arg_pos :]
-    let l:pos = a:res.pos + l:arg_pos - 1
-  else
-    let l:prefix = ''
-    let l:match_arg = a:res.arg
-    let l:pos = a:res.pos
-  endif
+  let l:prefix = strpart(a:res.arg, 0, l:arg_pos - 1)
+  let l:match_arg = strpart(a:res.arg, l:arg_pos - 1)
+  let l:pos = a:res.pos + l:arg_pos - 1
 
   if a:fuzzy == 1 && !empty(l:match_arg)
     let l:char = l:match_arg[0]
